@@ -41,9 +41,10 @@ jobs:
           sed -i 's|SERVER_ADDR|${{secrets.SERVER_ADDR}}|' frpc-run.ini
           sed -i 's|SERVER_PORT|${{secrets.SERVER_PORT}}|' frpc-run.ini
           sed -i 's|FRP_TOKEN|${{secrets.FRP_TOKEN}}|' frpc-run.ini
-          sed -i 's|V2RAY-NAME|${{secrets.V2RAY-NAME}}-${{secrets.FRP_VMESS_PORT}}|' frpc-run.ini
+          sed -i 's|V2RAY_NAME|${{secrets.V2RAY_NAME}}-${{secrets.FRP_VMESS_PORT}}|' frpc-run.ini
           sed -i 's|VMESS_PORT|${{secrets.VMESS_PORT}}|' frpc-run.ini
           sed -i 's|FRP_VMESS_PORT|${{secrets.FRP_VMESS_PORT}}|' frpc-run.ini
+          cat frpc-run.ini
           ./frpc -c frpc-run.ini
       - name: running
         timeout-minutes: ${{secrets.DURATION}}
