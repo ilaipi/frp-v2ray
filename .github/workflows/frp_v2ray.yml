@@ -1,0 +1,53 @@
+# This is a basic workflow to help you get started with Actions
+
+name: frp_v2ray
+
+# Controls when the action will run.
+on:
+  # Triggers the workflow on push or pull request events but only for the main branch
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+
+      - name: Start V2ray
+        run: |
+          mkdir v2ray
+          cd v2ray
+          wget ${{V2RAY_CONFIG}}
+          cd ..
+          docker run -d -p ${{secrets.VMESS_PORT}}:${{secrets.VMESS_PORT}} --name v2ray --restart=always -v $PWD/v2ray:/etc/v2ray teddysun/v2ray
+      # Runs a set of commands using the runners shell
+      - name: Start frpc
+        run: |
+          cp frpc.ini frpc-run.ini
+          wget https://github.com/fatedier/frp/releases/download/v0.37.0/frp_0.37.0_linux_amd64.tar.gz
+          tar -xf frp_0.37.0_linux_amd64.tar.gz --strip-components 1 -C .
+          sed -i 's|SERVER_ADDR|${{secrets.SERVER_ADDR}}|' frpc-run.ini
+          sed -i 's|SERVER_PORT|${{secrets.SERVER_PORT}}|' frpc-run.ini
+          sed -i 's|FRP_TOKEN|${{secrets.FRP_TOKEN}}|' frpc-run.ini
+          sed -i 's|V2RAY-NAME|${{secrets.V2RAY-NAME}}-${{secrets.FRP_VMESS_PORT}}|' frpc-run.ini
+          sed -i 's|VMESS_PORT|${{secrets.VMESS_PORT}}|' frpc-run.ini
+          sed -i 's|FRP_VMESS_PORT|${{secrets.FRP_VMESS_PORT}}|' frpc-run.ini
+          ./frpc -c frpc-run.ini
+      - name: running
+        timeout-minutes: ${{secrets.DURATION}}
+        continue-on-error: true
+        run: |
+          echo hello,
+          echo thanks.
