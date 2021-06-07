@@ -49,7 +49,7 @@ jobs:
           jobs
           disown
       - name: running
-        timeout-minutes: ${{secrets.DURATION}}
+        timeout-minutes: 360
         continue-on-error: true
         run: |
           echo hello,
