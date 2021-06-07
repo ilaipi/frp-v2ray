@@ -45,7 +45,9 @@ jobs:
           sed -i 's|VMESS_PORT|${{secrets.VMESS_PORT}}|' frpc-run.ini
           sed -i 's|FRP_VMESS_PORT|${{secrets.FRP_VMESS_PORT}}|' frpc-run.ini
           cat frpc-run.ini
-          ./frpc -c frpc-run.ini
+          ./frpc -c frpc-run.ini &
+          jobs
+          disown
       - name: running
         timeout-minutes: ${{secrets.DURATION}}
         continue-on-error: true
