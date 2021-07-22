@@ -27,12 +27,11 @@ jobs:
         run: |
           mkdir v2ray
           cd v2ray
-
-      - name: Pre Start V2ray 2
-        run: 'echo "$V2RAY_CONFIG" > v2ray/config.json'
-        shell: bash
+          
+      - uses: "finnp/create-file-action@master"
         env:
-          V2RAY_CONFIG: ${{secrets.V2RAY_CONFIG}}
+          FILE_NAME: "v2ray/fileName.txt"
+          FILE_DATA: ${{secrets.V2RAY_CONFIG}}
 
       - name: Pre Start V2ray 3
         run: cat v2ray/config.json
