@@ -27,9 +27,9 @@ jobs:
         run: |
           mkdir v2ray
           cp config.json v2ray/
-          sed -i 's|VMESS_INBOUNDS_PORT|${{secrets.VMESS_INBOUNDS_PORT}}|' v2ray/config.json
+          sed -i 's|VMESS_INBOUNDS_PORT|${{secrets.VMESS_PORT}}|' v2ray/config.json
           docker run -d -p ${{secrets.VMESS_PORT}}:${{secrets.VMESS_PORT}} --name v2ray --restart=always -v $PWD/v2ray:/etc/v2ray teddysun/v2ray
-          
+
       # Runs a set of commands using the runners shell
       - name: Start frpc
         run: |
