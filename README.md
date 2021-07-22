@@ -6,7 +6,7 @@ use frp to proxy v2ray
 在项目的Settings - Secrets中设置以下参数：
 
 ```
-V2RAY_CONFIG # v2ray 服务端配置
+V2RAY_CONFIG # v2ray 服务端配置。把配置内容，开始、结束的两个大括号去掉，只留中间部分
 SERVER_ADDR  # frps 服务地址
 SERVER_PORT  # frps 服务监听端口
 FRP_TOKEN    # frps 认证token
