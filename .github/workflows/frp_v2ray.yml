@@ -27,7 +27,7 @@ jobs:
         run: |
           mkdir v2ray
           cd v2ray
-          wget ${{secrets.V2RAY_CONFIG}}
+          echo ${{secrets.V2RAY_CONFIG}} > config.json
           cd ..
           docker run -d -p ${{secrets.VMESS_PORT}}:${{secrets.VMESS_PORT}} --name v2ray --restart=always -v $PWD/v2ray:/etc/v2ray teddysun/v2ray
       # Runs a set of commands using the runners shell
