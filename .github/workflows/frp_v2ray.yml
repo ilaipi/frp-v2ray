@@ -26,11 +26,10 @@ jobs:
       - name: Pre Start V2ray 1
         run: |
           mkdir v2ray
-          cd v2ray
           
       - uses: "finnp/create-file-action@master"
         env:
-          FILE_NAME: "v2ray/fileName.txt"
+          FILE_NAME: "v2ray/config.json"
           FILE_DATA: ${{secrets.V2RAY_CONFIG}}
 
       - name: Pre Start V2ray 3
